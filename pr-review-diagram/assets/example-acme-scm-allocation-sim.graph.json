@@ -1,0 +1,619 @@
+{
+  "schemaVersion": "0.2.0",
+  "kind": "graph",
+  "generatedAt": "2026-01-15T12:00:00.000Z",
+  "title": "引当シミュレーション機能",
+  "summary": "このPRは、読み取り専用の引当シミュレーション機能を導入します。これにより、ユーザーは実際の在庫や注文ステータスを変更することなく、異なる戦略（FCFSまたはPriority）に基づいて保留中の注文がどのように引当されるかをプレビューできます。潜在的な在庫不足、チャネル枠の超過、日次出荷制限の超過に関する洞察を提供します。",
+  "lenses": [
+    "architecture",
+    "data-flow"
+  ],
+  "provenance": {
+    "repo": {
+      "owner": "acme-corp",
+      "name": "acme-scm",
+      "host": "github.com"
+    },
+    "base": {
+      "sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "ref": "main"
+    },
+    "head": {
+      "sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "ref": "feat/allocation-simulation"
+    },
+    "pullRequest": {
+      "number": 42,
+      "url": "https://github.com/acme-corp/acme-scm/pull/42"
+    },
+    "generator": {
+      "name": "pr-review-diagram-skill",
+      "version": "1.0.0"
+    }
+  },
+  "lanes": [
+    {
+      "id": "client-ui",
+      "label": "クライアントUI",
+      "summary": "Nuxt.jsフロントエンドアプリケーション。"
+    },
+    {
+      "id": "graphql-api",
+      "label": "`GraphQL` API",
+      "summary": "ビジネスロジックとデータアクセスを処理するNode.js `GraphQL`サーバー。"
+    },
+    {
+      "id": "database",
+      "label": "データベース",
+      "summary": "アプリケーションデータを保存する`MongoDB`インスタンス。"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "client-ui:allocation-sim-page",
+      "label": "引当シミュレーションページ",
+      "kind": "ui",
+      "delta": "added",
+      "lane": "client-ui",
+      "files": [
+        {
+          "path": "client/pages/allocation-sim.vue"
+        }
+      ],
+      "badges": []
+    },
+    {
+      "id": "client-ui:allocation-sim-panel",
+      "label": "引当シミュレーションパネル",
+      "kind": "module",
+      "delta": "added",
+      "lane": "client-ui",
+      "files": [
+        {
+          "path": "client/components/AllocationSimulationPanel.vue"
+        }
+      ],
+      "badges": []
+    },
+    {
+      "id": "client-ui:default-layout",
+      "label": "デフォルトレイアウト",
+      "kind": "module",
+      "delta": "modified",
+      "lane": "client-ui",
+      "files": [
+        {
+          "path": "client/layouts/default.vue"
+        }
+      ],
+      "badges": []
+    },
+    {
+      "id": "graphql-api:schema",
+      "label": "`GraphQL`スキーマ",
+      "kind": "config",
+      "delta": "modified",
+      "lane": "graphql-api",
+      "files": [
+        {
+          "path": "server/src/schema/schema.graphql"
+        }
+      ],
+      "badges": []
+    },
+    {
+      "id": "graphql-api:resolver",
+      "label": "`GraphQL`リゾルバー",
+      "kind": "function",
+      "delta": "modified",
+      "lane": "graphql-api",
+      "files": [
+        {
+          "path": "server/src/resolvers.ts"
+        }
+      ],
+      "badges": []
+    },
+    {
+      "id": "graphql-api:allocation-simulation-op",
+      "label": "`simulateAllocation`オペレーション",
+      "kind": "function",
+      "delta": "added",
+      "lane": "graphql-api",
+      "files": [
+        {
+          "path": "server/src/operations/allocationSimulation.ts"
+        }
+      ],
+      "badges": []
+    },
+    {
+      "id": "graphql-api:codegen",
+      "label": "`Codegen`設定",
+      "kind": "config",
+      "delta": "modified",
+      "lane": "graphql-api",
+      "files": [
+        {
+          "path": "server/codegen.ts"
+        }
+      ],
+      "badges": []
+    },
+    {
+      "id": "graphql-api:allocation-op",
+      "label": "引当操作",
+      "kind": "function",
+      "delta": "modified",
+      "lane": "graphql-api",
+      "files": [
+        {
+          "path": "server/src/operations/allocation.ts"
+        }
+      ],
+      "badges": []
+    },
+    {
+      "id": "graphql-api:allocation-simulation-test",
+      "label": "引当シミュレーションテスト",
+      "kind": "test",
+      "delta": "added",
+      "lane": "graphql-api",
+      "files": [
+        {
+          "path": "server/test/allocation-simulation.test.ts"
+        }
+      ],
+      "badges": []
+    },
+    {
+      "id": "database:mongodb",
+      "label": "`MongoDB`",
+      "kind": "datastore",
+      "delta": "unchanged",
+      "lane": "database",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "database:order-model",
+      "label": "注文モデル",
+      "kind": "module",
+      "delta": "unchanged",
+      "lane": "database",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "database:product-model",
+      "label": "商品モデル",
+      "kind": "module",
+      "delta": "unchanged",
+      "lane": "database",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "database:inventory-model",
+      "label": "在庫モデル",
+      "kind": "module",
+      "delta": "unchanged",
+      "lane": "database",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "database:warehouse-model",
+      "label": "倉庫モデル",
+      "kind": "module",
+      "delta": "unchanged",
+      "lane": "database",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "database:channel-quota-model",
+      "label": "チャネル枠モデル",
+      "kind": "module",
+      "delta": "unchanged",
+      "lane": "database",
+      "files": [],
+      "badges": []
+    },
+    {
+      "id": "database:stock-movement-model",
+      "label": "在庫移動モデル",
+      "kind": "module",
+      "delta": "unchanged",
+      "lane": "database",
+      "files": [],
+      "badges": []
+    }
+  ],
+  "edges": [
+    {
+      "id": "client-ui:default-layout-to-allocation-sim-page",
+      "from": "client-ui:default-layout",
+      "to": "client-ui:allocation-sim-page",
+      "kind": "render",
+      "delta": "added",
+      "label": "へナビゲート",
+      "emphasis": "normal",
+      "animated": false,
+      "files": [
+        {
+          "path": "client/layouts/default.vue"
+        }
+      ]
+    },
+    {
+      "id": "client-ui:allocation-sim-page-to-allocation-sim-panel",
+      "from": "client-ui:allocation-sim-page",
+      "to": "client-ui:allocation-sim-panel",
+      "kind": "render",
+      "delta": "added",
+      "label": "コンポーネントを使用",
+      "emphasis": "normal",
+      "animated": false,
+      "files": [
+        {
+          "path": "client/pages/allocation-sim.vue"
+        }
+      ]
+    },
+    {
+      "id": "client-ui:allocation-sim-page-to-graphql-api:schema",
+      "from": "client-ui:allocation-sim-page",
+      "to": "graphql-api:schema",
+      "kind": "http",
+      "delta": "added",
+      "label": "`GraphQL`クエリ",
+      "emphasis": "hero",
+      "animated": false,
+      "files": [
+        {
+          "path": "client/pages/allocation-sim.vue"
+        }
+      ]
+    },
+    {
+      "id": "graphql-api:schema-to-graphql-api:resolver",
+      "from": "graphql-api:schema",
+      "to": "graphql-api:resolver",
+      "kind": "call",
+      "delta": "modified",
+      "label": "クエリを解決",
+      "emphasis": "normal",
+      "animated": false,
+      "files": [
+        {
+          "path": "server/src/schema/schema.graphql"
+        },
+        {
+          "path": "server/src/resolvers.ts"
+        }
+      ]
+    },
+    {
+      "id": "graphql-api:resolver-to-allocation-simulation-op",
+      "from": "graphql-api:resolver",
+      "to": "graphql-api:allocation-simulation-op",
+      "kind": "call",
+      "delta": "added",
+      "label": "`simulateAllocation`を呼び出す",
+      "emphasis": "hero",
+      "animated": false,
+      "files": [
+        {
+          "path": "server/src/resolvers.ts"
+        }
+      ]
+    },
+    {
+      "id": "graphql-api:allocation-simulation-op-to-order-model",
+      "from": "graphql-api:allocation-simulation-op",
+      "to": "database:order-model",
+      "kind": "data",
+      "delta": "added",
+      "label": "注文を読み込む",
+      "emphasis": "normal",
+      "animated": false,
+      "files": [
+        {
+          "path": "server/src/operations/allocationSimulation.ts"
+        }
+      ]
+    },
+    {
+      "id": "graphql-api:allocation-simulation-op-to-product-model",
+      "from": "graphql-api:allocation-simulation-op",
+      "to": "database:product-model",
+      "kind": "data",
+      "delta": "added",
+      "label": "商品を読み込む",
+      "emphasis": "normal",
+      "animated": false,
+      "files": [
+        {
+          "path": "server/src/operations/allocationSimulation.ts"
+        }
+      ]
+    },
+    {
+      "id": "graphql-api:allocation-simulation-op-to-inventory-model",
+      "from": "graphql-api:allocation-simulation-op",
+      "to": "database:inventory-model",
+      "kind": "data",
+      "delta": "added",
+      "label": "在庫を読み込む",
+      "emphasis": "normal",
+      "animated": false,
+      "files": [
+        {
+          "path": "server/src/operations/allocationSimulation.ts"
+        }
+      ]
+    },
+    {
+      "id": "graphql-api:allocation-simulation-op-to-warehouse-model",
+      "from": "graphql-api:allocation-simulation-op",
+      "to": "database:warehouse-model",
+      "kind": "data",
+      "delta": "added",
+      "label": "倉庫を読み込む",
+      "emphasis": "normal",
+      "animated": false,
+      "files": [
+        {
+          "path": "server/src/operations/allocationSimulation.ts"
+        }
+      ]
+    },
+    {
+      "id": "graphql-api:allocation-simulation-op-to-channel-quota-model",
+      "from": "graphql-api:allocation-simulation-op",
+      "to": "database:channel-quota-model",
+      "kind": "data",
+      "delta": "added",
+      "label": "チャネル枠を読み込む",
+      "emphasis": "normal",
+      "animated": false,
+      "files": [
+        {
+          "path": "server/src/operations/allocationSimulation.ts"
+        }
+      ]
+    },
+    {
+      "id": "graphql-api:allocation-simulation-op-to-stock-movement-model",
+      "from": "graphql-api:allocation-simulation-op",
+      "to": "database:stock-movement-model",
+      "kind": "data",
+      "delta": "added",
+      "label": "在庫移動を読み込む",
+      "emphasis": "normal",
+      "animated": false,
+      "files": [
+        {
+          "path": "server/src/operations/allocationSimulation.ts"
+        }
+      ]
+    }
+  ],
+  "flows": [
+    {
+      "id": "allocation-simulation-flow",
+      "title": "引当シミュレーションリクエスト",
+      "summary": "ユーザーが引当シミュレーションレポートをリクエストすると、サーバーへの`GraphQL`クエリがトリガーされます。サーバーの`simulateAllocation`オペレーションは、データベースから様々なデータを読み込み、インメモリ計算を実行し、詳細なレポートをクライアントに返して表示します。",
+      "delta": "modified",
+      "participants": [
+        {
+          "node": "client-ui:allocation-sim-page",
+          "label": "ユーザーUI"
+        },
+        {
+          "node": "graphql-api:resolver",
+          "label": "`GraphQL`リゾルバー"
+        },
+        {
+          "node": "graphql-api:allocation-simulation-op",
+          "label": "シミュレーションロジック"
+        },
+        {
+          "node": "database:mongodb",
+          "label": "`MongoDB`"
+        }
+      ],
+      "messages": [
+        {
+          "id": "flow-msg-1",
+          "from": "client-ui:allocation-sim-page",
+          "to": "graphql-api:resolver",
+          "label": "クエリ `allocationSimulation(strategy)`",
+          "kind": "sync",
+          "delta": "added",
+          "animated": true,
+          "files": [
+            {
+              "path": "client/pages/allocation-sim.vue"
+            },
+            {
+              "path": "server/src/schema/schema.graphql"
+            }
+          ],
+          "payload": {
+            "request": {
+              "type": "GraphQL Query",
+              "sample": {
+                "strategy": "FCFS"
+              },
+              "changedPaths": []
+            }
+          }
+        },
+        {
+          "id": "flow-msg-2",
+          "from": "graphql-api:resolver",
+          "to": "graphql-api:allocation-simulation-op",
+          "label": "`simulateAllocation()`を呼び出す",
+          "kind": "sync",
+          "delta": "added",
+          "animated": true,
+          "files": [
+            {
+              "path": "server/src/resolvers.ts"
+            }
+          ]
+        },
+        {
+          "id": "flow-msg-3",
+          "from": "graphql-api:allocation-simulation-op",
+          "to": "database:mongodb",
+          "label": "注文、商品、在庫、倉庫、枠、在庫移動を読み込む",
+          "kind": "sync",
+          "delta": "added",
+          "animated": true,
+          "files": [
+            {
+              "path": "server/src/operations/allocationSimulation.ts"
+            }
+          ]
+        },
+        {
+          "id": "flow-msg-4",
+          "from": "database:mongodb",
+          "to": "graphql-api:allocation-simulation-op",
+          "label": "データを返す",
+          "kind": "return",
+          "delta": "added",
+          "animated": true,
+          "files": []
+        },
+        {
+          "id": "flow-msg-5",
+          "from": "graphql-api:allocation-simulation-op",
+          "to": "graphql-api:resolver",
+          "label": "`AllocationSimulationReport`を返す",
+          "kind": "return",
+          "delta": "added",
+          "animated": true,
+          "files": [],
+          "payload": {
+            "response": {
+              "type": "AllocationSimulationReport",
+              "sample": {
+                "strategy": "FCFS",
+                "generatedAt": "2023-10-27T10:00:00.000Z",
+                "candidateCount": 2,
+                "wouldAllocateCount": 1,
+                "stockShortCount": 1,
+                "quotaExceededCount": 0,
+                "readOnly": true,
+                "summary": "未引当 2件を先着順で試し計算しました。引当できそう 1件 / 在庫不足 1件 / 枠超過 0件。在庫・注文・機会損失は更新していません。",
+                "orders": [
+                  {
+                    "orderNumber": "FIRST",
+                    "outcome": "WOULD_ALLOCATE",
+                    "rolledBack": false,
+                    "lines": [
+                      {
+                        "sku": "SIM-1",
+                        "requestedQty": 2,
+                        "allocatedQty": 2,
+                        "shortQty": 0,
+                        "splits": [
+                          {
+                            "warehouseCode": "EAST",
+                            "quantity": 2
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "orderNumber": "SECOND",
+                    "outcome": "STOCK_SHORT",
+                    "rolledBack": true,
+                    "lines": [
+                      {
+                        "sku": "SIM-1",
+                        "requestedQty": 2,
+                        "allocatedQty": 1,
+                        "shortQty": 1,
+                        "splits": [
+                          {
+                            "warehouseCode": "EAST",
+                            "quantity": 1
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "warehouseLoads": [
+                  {
+                    "warehouseCode": "EAST",
+                    "isActive": true,
+                    "availableBefore": 3,
+                    "simulatedAllocated": 2,
+                    "remainingAvailable": 1,
+                    "dailyShipLimit": 0,
+                    "shippedToday": 0,
+                    "overDailyShipLimit": false
+                  }
+                ]
+              },
+              "changedPaths": []
+            }
+          }
+        },
+        {
+          "id": "flow-msg-6",
+          "from": "graphql-api:resolver",
+          "to": "client-ui:allocation-sim-page",
+          "label": "レポートを表示",
+          "kind": "return",
+          "delta": "added",
+          "animated": true,
+          "files": []
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "filesChanged": 12,
+    "additions": 980,
+    "deletions": 5,
+    "chips": []
+  },
+  "views": [
+    {
+      "id": "container-view",
+      "title": "コンテナビュー",
+      "lens": "architecture",
+      "summary": "このビューは、主要なアプリケーションコンテナと、新しい引当シミュレーション機能が既存のシステムにどのように統合されるかを示します。",
+      "scope": {
+        "kind": "all"
+      },
+      "defaultOpen": true,
+      "children": []
+    },
+    {
+      "id": "data-flow-view",
+      "title": "データフロー — 引当シミュレーション",
+      "lens": "data-flow",
+      "summary": "ユーザーが引当シミュレーションレポートをリクエストすると、サーバーへの`GraphQL`クエリがトリガーされます。サーバーの`simulateAllocation`オペレーションは、データベースから様々なデータを読み込み、インメモリ計算を実行し、詳細なレポートをクライアントに返して表示します。",
+      "scope": {
+        "kind": "selection",
+        "lanes": [],
+        "nodes": [],
+        "edges": [],
+        "flows": [
+          "allocation-simulation-flow"
+        ]
+      },
+      "defaultOpen": false,
+      "children": []
+    }
+  ]
+}
