@@ -19,6 +19,18 @@ A Claude Code / Cursor skill that turns a PR diff into Coldtea PR Lens–style a
 
 このリポジトリはスキル一式と手順のドキュメントです。Coldtea のソースは同梱しません。
 
+### サンプル画像
+
+架空の Acme SCM「引当シミュレーション」例から `npx @coldtea/pr-lens-cli render --theme light` で生成した SVG です。
+
+#### アーキテクチャ（コンテナビュー）
+
+![Architecture sample — container view](docs/samples/architecture-light.svg)
+
+#### データフロー
+
+![Data-flow sample](docs/samples/data-flow-light.svg)
+
 ### インストール
 
 Cursor は `.claude/skills/` も読むので、プロジェクトでは次のコピーだけで Claude Code と Cursor の両方に効きます。
@@ -80,6 +92,18 @@ MIT © 2026 uzuraDev。
 - Look comes from the Coldtea renderer (Mermaid only if npm / Coldtea packages are forbidden)
 
 This repository is skill packaging and workflow docs only. It does **not** vend Coldtea source.
+
+### Sample images
+
+SVGs rendered from the fictional Acme SCM “allocation simulation” example with `npx @coldtea/pr-lens-cli render --theme light`.
+
+#### Architecture (container view)
+
+![Architecture sample — container view](docs/samples/architecture-light.svg)
+
+#### Data flow
+
+![Data-flow sample](docs/samples/data-flow-light.svg)
 
 ### Install
 
